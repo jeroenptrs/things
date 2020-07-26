@@ -1699,7 +1699,7 @@ System.register("https://deno.land/std@0.62.0/http/server", ["https://deno.land/
         }
     };
 });
-System.register("file:///Users/jeroen.peeters/Documents/Projects/playground/bundledenothing/deps", ["https://deno.land/std@0.62.0/http/server"], function (exports_13, context_13) {
+System.register("file:///Users/jeroen.peeters/Documents/Projects/playground/bundledenothing/test/deps", ["https://deno.land/std@0.62.0/http/server"], function (exports_13, context_13) {
     "use strict";
     var __moduleName = context_13 && context_13.id;
     return {
@@ -1714,10 +1714,18 @@ System.register("file:///Users/jeroen.peeters/Documents/Projects/playground/bund
         }
     };
 });
-System.register("file:///Users/jeroen.peeters/Documents/Projects/playground/bundledenothing/mod", ["file:///Users/jeroen.peeters/Documents/Projects/playground/bundledenothing/deps"], function (exports_14, context_14) {
+System.register("file:///Users/jeroen.peeters/Documents/Projects/playground/bundledenothing/test/mod", ["file:///Users/jeroen.peeters/Documents/Projects/playground/bundledenothing/test/deps"], function (exports_14, context_14) {
     "use strict";
-    var deps_ts_1, server;
+    var deps_ts_1;
     var __moduleName = context_14 && context_14.id;
+    async function srv() {
+        const server = deps_ts_1.serve({ port: 8000 });
+        console.log("http://localhost:8000/");
+        for await (const req of server) {
+            const name = req.url.split("?")[0].split("/")[1];
+            req.respond({ body: `Hello, ${!!name ? name : "World"}!` });
+        }
+    }
     return {
         setters: [
             function (deps_ts_1_1) {
@@ -1725,13 +1733,9 @@ System.register("file:///Users/jeroen.peeters/Documents/Projects/playground/bund
             }
         ],
         execute: function () {
-            server = deps_ts_1.serve({ port: 8000 });
-            console.log("http://localhost:8000/");
-            for await (const req of server) {
-                req.respond({ body: "Hello World\n" });
-            }
+            srv();
         }
     };
 });
 
-__instantiate("file:///Users/jeroen.peeters/Documents/Projects/playground/bundledenothing/mod", false);
+__instantiate("file:///Users/jeroen.peeters/Documents/Projects/playground/bundledenothing/test/mod", false);

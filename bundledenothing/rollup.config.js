@@ -1,10 +1,11 @@
 import { terser } from "rollup-plugin-terser";
 
+import resolveUrls from "./rollupResolveDenoUrls.js";
+import transpile from "./rollupTranspileWithDeno.js";
+
 export default {
-  input: "./mod.ts",
   output: {
-    file: "bundle.js",
     format: "es",
   },
-  plugins: [terser()],
+  plugins: [transpile(), resolveUrls(), terser()],
 };
